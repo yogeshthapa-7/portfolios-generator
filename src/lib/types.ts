@@ -40,5 +40,6 @@ export interface PortfolioData {
   skills: string[];
   projects: Project[];
   experience: Experience[];
-  theme?: 'brutalist' | 'minimal' | 'glassmorphic' | 'neon';
+  template?: 'brutalist' | 'minimal' | 'glassmorphic' | 'neon' | 'editorial' | 'aurora' | 'mono' | 'sunset' | 'clay' | 'blueprint';
+  theme?: 'brutalist' | 'minimal' | 'glassmorphic' | 'neon' | 'editorial' | 'aurora' | 'mono' | 'sunset' | 'clay' | 'blueprint';
 }

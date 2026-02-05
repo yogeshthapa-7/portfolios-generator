@@ -14,6 +14,7 @@ const defaultData: PortfolioData = {
     skills: [],
     projects: [],
     experience: [],
+    template: 'brutalist',
     theme: 'brutalist',
 };
 

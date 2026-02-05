@@ -5,7 +5,7 @@
 <img src="./public/home.png" alt="Portfolio Generator" width="100%" style="border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
 
 <p align="center">
-  <strong>A modern, feature-rich portfolio builder with 4 stunning themes</strong>
+  <strong>A modern, feature-rich portfolio builder with 10 professionally crafted templates</strong>
 </p>
 
 <p align="center">
@@ -43,8 +43,8 @@ Never lose your progress with automatic storage
 <tr>
 <td width="50%">
 
-### 🎨 4 Unique Themes
-From brutalist to neon - find your perfect style
+### 🎨 10 Unique Templates
+From brutalist to blueprint - find your perfect style
 
 </td>
 <td width="50%">
@@ -158,10 +158,10 @@ const stack = {
 <tr>
 <td colspan="2">
 
-### 🎨 Preview & Export
+### 🎨 Live Preview & Export
 <img src="./public/footer.png" alt="Footer" width="100%" style="border-radius: 8px; border: 2px solid #e5e7eb;">
 
-> Real-time preview with theme switching and one-click HTML export functionality.
+> Live preview inside the editor with template switching and one-click HTML export functionality.
 
 </td>
 </tr>
@@ -175,11 +175,11 @@ const stack = {
 
 <div align="center">
 
-### 🎨 Multiple Themes
+### 🎨 Multiple Templates
 
 <table>
 <tr>
-<th width="25%">Theme</th>
+<th width="25%">Template</th>
 <th width="35%">Style</th>
 <th width="40%">Best For</th>
 </tr>
@@ -299,7 +299,7 @@ Developers, gamers, tech enthusiasts, digital artists
 | 🎯 **Validation** | Smart form validation prevents errors |
 | 📱 **Responsive Design** | Perfect on mobile, tablet, and desktop |
 | ⚡ **Performance** | Lightning-fast load times and interactions |
-| 🎨 **Theme Switching** | Change themes in real-time preview |
+| 🎨 **Template Switching** | Change templates in real-time preview |
 | 🔍 **SEO Ready** | Semantic HTML for search engines |
 
 </div>
@@ -707,15 +707,11 @@ Add work history with:
 
 ---
 
-#### 🎨 Step 6: Preview & Export
+#### 🎨 Step 6: Live Preview & Export
 
-1. Click **"Preview Portfolio"** button
-2. Browse through 4 theme options:
-   - Brutalist
-   - Minimal
-   - Glassmorphic
-   - Neon
-3. Click theme name to switch
+1. Select a template from the **Template** section
+2. See changes instantly in the **Live Preview** panel
+3. Open **Full Preview** for a full-page view
 4. Click **"Export HTML"** to download
 
 **Export Benefits:**

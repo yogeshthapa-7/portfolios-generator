@@ -7,7 +7,7 @@ import { Textarea } from "../components/ui/textarea";
 import { Label } from "../components/ui/label";
 import { Badge } from "../components/ui/badge";
 import { Plus, Trash2, Eye, Download, Sparkles, Github, Linkedin, Twitter, Globe, Briefcase, Award } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Project, Experience } from "../lib/types";
 
 export default function Home() {
@@ -43,6 +43,82 @@ export default function Home() {
   });
   const [newTech, setNewTech] = useState("");
   const [newAchievement, setNewAchievement] = useState("");
+  const selectedTemplate = data.template || data.theme || "brutalist";
+  const [showAllTemplates, setShowAllTemplates] = useState(false);
+  const [previewRefresh, setPreviewRefresh] = useState(0);
+
+  const templates = [
+    {
+      value: "brutalist",
+      name: "Brutalist Grid",
+      description: "Bold typography, sharp lines, unapologetic contrast.",
+      accent: "bg-yellow-400",
+      preview: "bg-[#0a0a0a] border-2 border-yellow-400/60"
+    },
+    {
+      value: "minimal",
+      name: "Editorial Minimal",
+      description: "Elegant serif hierarchy with airy spacing.",
+      accent: "bg-gray-300",
+      preview: "bg-white border border-gray-200"
+    },
+    {
+      value: "glassmorphic",
+      name: "Glassmorphic Lux",
+      description: "Luminous gradients, soft depth, premium glow.",
+      accent: "bg-blue-400",
+      preview: "bg-gradient-to-br from-indigo-700 via-blue-600 to-purple-600"
+    },
+    {
+      value: "neon",
+      name: "Neon Circuit",
+      description: "Futuristic neon grid with electric energy.",
+      accent: "bg-cyan-400",
+      preview: "bg-black border border-cyan-400/40"
+    },
+    {
+      value: "editorial",
+      name: "Editorial Noir",
+      description: "High-contrast headlines with refined magazine rhythm.",
+      accent: "bg-amber-400",
+      preview: "bg-neutral-950 border border-white/10"
+    },
+    {
+      value: "aurora",
+      name: "Aurora Wave",
+      description: "Floating gradients with soft luminous motion.",
+      accent: "bg-emerald-400",
+      preview: "bg-gradient-to-r from-emerald-500 via-cyan-400 to-indigo-500"
+    },
+    {
+      value: "mono",
+      name: "Mono Studio",
+      description: "Monochrome elegance with subtle texture.",
+      accent: "bg-zinc-300",
+      preview: "bg-zinc-950 border border-zinc-700"
+    },
+    {
+      value: "sunset",
+      name: "Sunset Atlas",
+      description: "Warm horizon tones with cinematic depth.",
+      accent: "bg-orange-400",
+      preview: "bg-gradient-to-r from-orange-500 via-rose-400 to-amber-400"
+    },
+    {
+      value: "clay",
+      name: "Clay Soft",
+      description: "Soft clay surfaces with gentle shadows.",
+      accent: "bg-rose-300",
+      preview: "bg-[#f4ede6] border border-rose-200"
+    },
+    {
+      value: "blueprint",
+      name: "Blueprint Pro",
+      description: "Technical grid, crisp lines, architectural clarity.",
+      accent: "bg-blue-500",
+      preview: "bg-blue-950 border border-blue-400/40"
+    }
+  ] as const;
 
   const handleAddSkill = () => {
     if (newSkill.trim()) {
@@ -94,6 +170,10 @@ export default function Home() {
     }
   };
 
+  useEffect(() => {
+    setPreviewRefresh(prev => prev + 1);
+  }, [data, selectedTemplate]);
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white relative overflow-hidden">
       {/* Brutalist Background Elements */}
@@ -129,6 +209,103 @@ export default function Home() {
             </div>
           </div>
         </header>
+
+        {/* Template Selection */}
+        <section className="mb-20">
+          <div className="border-l-8 border-white pl-8 mb-10">
+            <h2 className="text-5xl font-black mb-2 uppercase tracking-tight" style={{ fontFamily: 'Arial Black, sans-serif' }}>
+              00. Template
+            </h2>
+            <p className="text-gray-500 text-lg">Pick the visual direction for your portfolio.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {(showAllTemplates ? templates : templates.slice(0, 4)).map(template => (
+              <div
+                key={template.value}
+                role="button"
+                tabIndex={0}
+                onClick={() => updateData({ template: template.value, theme: template.value })}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    updateData({ template: template.value, theme: template.value });
+                  }
+                }}
+                className={`group border-2 p-8 text-left transition-all cursor-pointer ${
+                  selectedTemplate === template.value
+                    ? 'border-white bg-white/10'
+                    : 'border-white/10 bg-white/5 hover:border-white/50'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h3 className="text-2xl font-black uppercase tracking-tight">
+                      {template.name}
+                    </h3>
+                    <p className="text-gray-400 mt-2 text-sm max-w-md">
+                      {template.description}
+                    </p>
+                  </div>
+                  <div className={`w-5 h-5 rounded-full ${template.accent}`}></div>
+                </div>
+                <div className={`h-28 border-2 border-dashed border-white/10 flex items-center justify-center text-xs text-gray-500 uppercase tracking-wider ${template.preview}`}>
+                  {selectedTemplate === template.value ? "Selected" : "Preview"}
+                </div>
+                <div className="mt-6">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      updateData({ template: template.value, theme: template.value });
+                      window.location.href = "/preview";
+                    }}
+                    className="border-2 border-white/40 bg-transparent text-white hover:bg-white/10"
+                  >
+                    Preview Template
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-6">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setShowAllTemplates(prev => !prev)}
+              className="border-2 border-white/20 bg-transparent text-white hover:bg-white/10"
+            >
+              {showAllTemplates ? "Show fewer templates" : "Show more templates"}
+            </Button>
+          </div>
+        </section>
+
+        {/* Live Template Preview */}
+        <section className="mb-20">
+          <div className="border-l-8 border-white pl-8 mb-10">
+            <h2 className="text-5xl font-black mb-2 uppercase tracking-tight" style={{ fontFamily: 'Arial Black, sans-serif' }}>
+              00. Live Preview
+            </h2>
+            <p className="text-gray-500 text-lg">See the selected template update instantly.</p>
+          </div>
+          <div className="border-2 border-white/10 bg-black/40">
+            <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
+              <span className="text-sm uppercase tracking-widest text-gray-400">{selectedTemplate} template</span>
+              <Button asChild variant="outline" className="border-2 border-white/20 bg-transparent text-white hover:bg-white/10">
+                <a href="/preview">Open Full Preview</a>
+              </Button>
+            </div>
+            <div className="h-[520px] bg-black">
+              <iframe
+                key={previewRefresh}
+                title="Template Preview"
+                src="/preview"
+                className="w-full h-full"
+              />
+            </div>
+          </div>
+        </section>
 
         {/* Personal Information Section */}
         <section className="mb-20">
@@ -359,8 +536,8 @@ export default function Home() {
                     onKeyDown={e => e.key === 'Enter' && handleAddTech()}
                     className="bg-black/50 border-2 border-white/20 text-white placeholder:text-gray-600 h-11 focus:border-blue-500"
                   />
-                  <Button onClick={handleAddTech} variant="outline" className="border-2">
-                    <Plus />
+                  <Button onClick={handleAddTech} variant="outline" className="border-2">               
+                    <Plus/>
                   </Button>
                 </div>
               </div>

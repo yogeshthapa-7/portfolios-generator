@@ -1,19 +1,18 @@
 "use client";
 
 import { usePortfolio } from "../context/PortfolioContext";
+import { PortfolioData } from "../../lib/types";
+
 import { Github, Linkedin, Twitter, Globe, Mail, MapPin, ExternalLink, Download, ChevronLeft, Palette } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Badge } from "../../components/ui/badge";
-import { useState } from "react";
+
+type TemplateKey = NonNullable<PortfolioData["template"]>
 
 export default function Preview() {
-    const { data, updateData } = usePortfolio();
-    const [selectedTheme, setSelectedTheme] = useState<'brutalist' | 'minimal' | 'glassmorphic' | 'neon'>(data.theme || 'brutalist');
+    const { data } = usePortfolio();
 
-    const handleThemeChange = (theme: typeof selectedTheme) => {
-        setSelectedTheme(theme);
-        updateData({ theme });
-    };
+    const selectedTemplate = (data.template || data.theme || 'brutalist') as TemplateKey;
 
     const exportHTML = () => {
         const html = document.documentElement.outerHTML;
@@ -25,7 +24,7 @@ export default function Preview() {
         a.click();
     };
 
-    const themes = {
+    const templates = {
         brutalist: (
             <div className="min-h-screen bg-[#0a0a0a] text-white">
                 {/* Noise overlay */}
@@ -204,7 +203,7 @@ export default function Preview() {
                     <footer className="border-t-4 border-yellow-400 py-12 px-8 mt-20">
                         <div className="max-w-6xl mx-auto text-center">
                             <p className="text-gray-500 text-lg">
-                                Built with passion © {new Date().getFullYear()}
+                                Built with passion {new Date().getFullYear()}
                             </p>
                         </div>
                     </footer>
@@ -389,7 +388,10 @@ export default function Preview() {
                 <div className="relative z-10 max-w-6xl mx-auto px-8 py-20">
                     {/* Header */}
                     <header className="mb-24 backdrop-blur-xl bg-white/10 p-12 rounded-3xl border border-white/20 shadow-2xl animate-[fadeIn_0.8s_ease-out]">
-                        <h1 className="text-7xl font-bold mb-6 bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                        <h1 className="text-7xl font-bold mb-6 bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent" style={{ 
+                            fontFamily: 'Montserrat, sans-serif',
+                            textShadow: '0 0 20px rgba(0,255,255,0.5), 0 0 40px rgba(255,0,255,0.3)'
+                        }}>
                             {data.name || "Your Name"}
                         </h1>
                         <p className="text-3xl text-blue-200 mb-8 font-light">
@@ -744,54 +746,377 @@ export default function Preview() {
                     }
                 `}</style>
             </div>
+        ),
+        editorial: (
+            <div className="min-h-screen bg-[#0f0f0f] text-white">
+                <div className="max-w-5xl mx-auto px-10 py-20">
+                    <header className="border-b border-white/20 pb-12 mb-16">
+                        <p className="text-sm uppercase tracking-[0.35em] text-amber-300">Editorial Portfolio</p>
+                        <h1 className="text-6xl font-semibold mt-6" style={{ fontFamily: 'Playfair Display, serif' }}>
+                            {data.name || "Your Name"}
+                        </h1>
+                        <p className="text-xl text-gray-300 mt-4" style={{ fontFamily: 'Inter, sans-serif' }}>
+                            {data.role || "Your Role"}
+                        </p>
+                        <div className="flex flex-wrap gap-6 text-sm text-gray-400 mt-8">
+                            {data.email && <span>{data.email}</span>}
+                            {data.location && <span>{data.location}</span>}
+                        </div>
+                    </header>
+
+                    {data.bio && (
+                        <section className="mb-14">
+                            <h2 className="text-sm uppercase tracking-[0.3em] text-amber-300 mb-4">About</h2>
+                            <p className="text-lg text-gray-300 leading-relaxed">{data.bio}</p>
+                        </section>
+                    )}
+
+                    {data.skills.length > 0 && (
+                        <section className="mb-14">
+                            <h2 className="text-sm uppercase tracking-[0.3em] text-amber-300 mb-4">Expertise</h2>
+                            <div className="flex flex-wrap gap-3">
+                                {data.skills.map(skill => (
+                                    <span key={skill} className="border border-white/20 px-4 py-2 text-sm text-gray-300">
+                                        {skill}
+                                    </span>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {data.projects.length > 0 && (
+                        <section className="mb-14">
+                            <h2 className="text-sm uppercase tracking-[0.3em] text-amber-300 mb-6">Selected Work</h2>
+                            <div className="space-y-8">
+                                {data.projects.map(project => (
+                                    <div key={project.id} className="border border-white/10 p-6">
+                                        <h3 className="text-2xl font-semibold">{project.title}</h3>
+                                        <p className="text-gray-400 mt-2">{project.description}</p>
+                                        <div className="flex flex-wrap gap-2 mt-4">
+                                            {project.tech.map(tech => (
+                                                <span key={tech} className="text-xs text-amber-200 bg-amber-500/10 px-3 py-1">
+                                                    {tech}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {data.experience.length > 0 && (
+                        <section>
+                            <h2 className="text-sm uppercase tracking-[0.3em] text-amber-300 mb-6">Experience</h2>
+                            <div className="space-y-6">
+                                {data.experience.map(exp => (
+                                    <div key={exp.id} className="border border-white/10 p-6">
+                                        <div className="flex justify-between items-start">
+                                            <div>
+                                                <h3 className="text-xl font-semibold">{exp.position}</h3>
+                                                <p className="text-gray-400">{exp.company}</p>
+                                            </div>
+                                            <span className="text-xs text-gray-400">{exp.startDate} - {exp.current ? 'Present' : exp.endDate}</span>
+                                        </div>
+                                        <p className="text-gray-400 mt-3">{exp.description}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+                </div>
+            </div>
+        ),
+        aurora: (
+            <div className="min-h-screen bg-gradient-to-br from-emerald-950 via-slate-950 to-indigo-950 text-white">
+                <div className="max-w-6xl mx-auto px-8 py-20">
+                    <header className="mb-16">
+                        <h1 className="text-6xl font-bold" style={{ fontFamily: 'Sora, sans-serif' }}>
+                            {data.name || "Your Name"}
+                        </h1>
+                        <p className="text-xl text-emerald-200 mt-4">{data.role || "Your Role"}</p>
+                        <div className="flex flex-wrap gap-4 text-sm text-slate-300 mt-6">
+                            {data.email && <span>{data.email}</span>}
+                            {data.location && <span>{data.location}</span>}
+                        </div>
+                    </header>
+
+                    {data.bio && (
+                        <section className="mb-12 bg-white/5 border border-white/10 rounded-2xl p-8">
+                            <h2 className="text-lg font-semibold text-emerald-200 mb-4">About</h2>
+                            <p className="text-slate-200 leading-relaxed">{data.bio}</p>
+                        </section>
+                    )}
+
+                    {data.skills.length > 0 && (
+                        <section className="mb-12">
+                            <h2 className="text-lg font-semibold text-emerald-200 mb-4">Skills</h2>
+                            <div className="flex flex-wrap gap-3">
+                                {data.skills.map(skill => (
+                                    <span key={skill} className="bg-emerald-500/15 border border-emerald-400/30 px-4 py-2 rounded-full text-sm">
+                                        {skill}
+                                    </span>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {data.projects.length > 0 && (
+                        <section className="mb-12">
+                            <h2 className="text-lg font-semibold text-emerald-200 mb-6">Projects</h2>
+                            <div className="grid gap-6">
+                                {data.projects.map(project => (
+                                    <div key={project.id} className="bg-white/5 border border-white/10 rounded-2xl p-6">
+                                        <h3 className="text-2xl font-semibold">{project.title}</h3>
+                                        <p className="text-slate-300 mt-2">{project.description}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {data.experience.length > 0 && (
+                        <section>
+                            <h2 className="text-lg font-semibold text-emerald-200 mb-6">Experience</h2>
+                            <div className="space-y-6">
+                                {data.experience.map(exp => (
+                                    <div key={exp.id} className="bg-white/5 border border-white/10 rounded-2xl p-6">
+                                        <div className="flex justify-between items-start">
+                                            <div>
+                                                <h3 className="text-xl font-semibold">{exp.position}</h3>
+                                                <p className="text-slate-300">{exp.company}</p>
+                                            </div>
+                                            <span className="text-xs text-slate-400">{exp.startDate} - {exp.current ? 'Present' : exp.endDate}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+                </div>
+            </div>
+        ),
+        mono: (
+            <div className="min-h-screen bg-zinc-950 text-zinc-100">
+                <div className="max-w-5xl mx-auto px-8 py-20">
+                    <header className="mb-16 border-b border-zinc-800 pb-10">
+                        <h1 className="text-5xl font-semibold" style={{ fontFamily: 'IBM Plex Mono, monospace' }}>
+                            {data.name || "Your Name"}
+                        </h1>
+                        <p className="text-zinc-400 mt-4">{data.role || "Your Role"}</p>
+                    </header>
+
+                    {data.bio && (
+                        <section className="mb-10">
+                            <h2 className="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-4">About</h2>
+                            <p className="text-zinc-300 leading-relaxed">{data.bio}</p>
+                        </section>
+                    )}
+
+                    {data.skills.length > 0 && (
+                        <section className="mb-10">
+                            <h2 className="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-4">Skills</h2>
+                            <div className="flex flex-wrap gap-2">
+                                {data.skills.map(skill => (
+                                    <span key={skill} className="border border-zinc-700 px-3 py-1 text-xs">
+                                        {skill}
+                                    </span>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {data.projects.length > 0 && (
+                        <section className="mb-10">
+                            <h2 className="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-6">Projects</h2>
+                            <div className="space-y-6">
+                                {data.projects.map(project => (
+                                    <div key={project.id} className="border border-zinc-800 p-5">
+                                        <h3 className="text-lg font-medium">{project.title}</h3>
+                                        <p className="text-zinc-400 mt-2">{project.description}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {data.experience.length > 0 && (
+                        <section>
+                            <h2 className="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-6">Experience</h2>
+                            <div className="space-y-4">
+                                {data.experience.map(exp => (
+                                    <div key={exp.id} className="border border-zinc-800 p-5">
+                                        <div className="flex justify-between">
+                                            <div>
+                                                <h3 className="text-lg font-medium">{exp.position}</h3>
+                                                <p className="text-zinc-400">{exp.company}</p>
+                                            </div>
+                                            <span className="text-xs text-zinc-500">{exp.startDate} - {exp.current ? 'Present' : exp.endDate}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+                </div>
+            </div>
+        ),
+        sunset: (
+            <div className="min-h-screen bg-gradient-to-br from-orange-100 via-rose-50 to-amber-100 text-rose-900">
+                <div className="max-w-5xl mx-auto px-8 py-20">
+                    <header className="mb-14">
+                        <h1 className="text-6xl font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                            {data.name || "Your Name"}
+                        </h1>
+                        <p className="text-xl text-rose-700 mt-3">{data.role || "Your Role"}</p>
+                    </header>
+
+                    {data.bio && (
+                        <section className="mb-12 bg-white/70 rounded-2xl p-8 shadow-md">
+                            <h2 className="text-lg font-semibold text-rose-700 mb-4">About</h2>
+                            <p className="text-rose-800 leading-relaxed">{data.bio}</p>
+                        </section>
+                    )}
+
+                    {data.projects.length > 0 && (
+                        <section className="mb-12">
+                            <h2 className="text-lg font-semibold text-rose-700 mb-6">Projects</h2>
+                            <div className="grid gap-6">
+                                {data.projects.map(project => (
+                                    <div key={project.id} className="bg-white/80 rounded-2xl p-6 shadow-sm">
+                                        <h3 className="text-2xl font-semibold">{project.title}</h3>
+                                        <p className="text-rose-700 mt-2">{project.description}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {data.experience.length > 0 && (
+                        <section>
+                            <h2 className="text-lg font-semibold text-rose-700 mb-6">Experience</h2>
+                            <div className="space-y-6">
+                                {data.experience.map(exp => (
+                                    <div key={exp.id} className="bg-white/80 rounded-2xl p-6 shadow-sm">
+                                        <div className="flex justify-between">
+                                            <div>
+                                                <h3 className="text-xl font-semibold">{exp.position}</h3>
+                                                <p className="text-rose-700">{exp.company}</p>
+                                            </div>
+                                            <span className="text-xs text-rose-600">{exp.startDate} - {exp.current ? 'Present' : exp.endDate}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+                </div>
+            </div>
+        ),
+        clay: (
+            <div className="min-h-screen bg-[#f4ede6] text-[#3d2f2a]">
+                <div className="max-w-5xl mx-auto px-8 py-20">
+                    <header className="mb-14">
+                        <p className="text-sm uppercase tracking-[0.3em] text-[#8b6f63]">Portfolio</p>
+                        <h1 className="text-5xl font-semibold mt-4" style={{ fontFamily: 'Cormorant Garamond, serif' }}>
+                            {data.name || "Your Name"}
+                        </h1>
+                        <p className="text-lg text-[#8b6f63] mt-2">{data.role || "Your Role"}</p>
+                    </header>
+
+                    {data.bio && (
+                        <section className="mb-10 bg-white/70 border border-[#e4d6cd] rounded-3xl p-8">
+                            <h2 className="text-lg font-semibold text-[#8b6f63] mb-3">About</h2>
+                            <p className="leading-relaxed">{data.bio}</p>
+                        </section>
+                    )}
+
+                    {data.skills.length > 0 && (
+                        <section className="mb-10">
+                            <h2 className="text-lg font-semibold text-[#8b6f63] mb-3">Skills</h2>
+                            <div className="flex flex-wrap gap-2">
+                                {data.skills.map(skill => (
+                                    <span key={skill} className="bg-white/80 border border-[#e4d6cd] px-3 py-2 rounded-full text-sm">
+                                        {skill}
+                                    </span>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {data.experience.length > 0 && (
+                        <section>
+                            <h2 className="text-lg font-semibold text-[#8b6f63] mb-4">Experience</h2>
+                            <div className="space-y-5">
+                                {data.experience.map(exp => (
+                                    <div key={exp.id} className="bg-white/80 border border-[#e4d6cd] rounded-3xl p-6">
+                                        <div className="flex justify-between">
+                                            <div>
+                                                <h3 className="text-xl font-semibold">{exp.position}</h3>
+                                                <p className="text-[#8b6f63]">{exp.company}</p>
+                                            </div>
+                                            <span className="text-xs text-[#8b6f63]">{exp.startDate} - {exp.current ? 'Present' : exp.endDate}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+                </div>
+            </div>
+        ),
+        blueprint: (
+            <div className="min-h-screen bg-[#061428] text-blue-100">
+                <div className="max-w-6xl mx-auto px-8 py-20">
+                    <header className="mb-16 border-b border-blue-400/30 pb-10">
+                        <p className="text-xs uppercase tracking-[0.4em] text-blue-300">Blueprint Portfolio</p>
+                        <h1 className="text-5xl font-semibold mt-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+                            {data.name || "Your Name"}
+                        </h1>
+                        <p className="text-lg text-blue-300 mt-2">{data.role || "Your Role"}</p>
+                    </header>
+
+                    {data.projects.length > 0 && (
+                        <section className="mb-12">
+                            <h2 className="text-lg font-semibold text-blue-200 mb-4">Projects</h2>
+                            <div className="grid gap-6">
+                                {data.projects.map(project => (
+                                    <div key={project.id} className="border border-blue-400/20 bg-blue-900/30 p-6">
+                                        <h3 className="text-xl font-semibold">{project.title}</h3>
+                                        <p className="text-blue-200 mt-2">{project.description}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {data.experience.length > 0 && (
+                        <section>
+                            <h2 className="text-lg font-semibold text-blue-200 mb-4">Experience</h2>
+                            <div className="space-y-6">
+                                {data.experience.map(exp => (
+                                    <div key={exp.id} className="border border-blue-400/20 bg-blue-900/30 p-6">
+                                        <div className="flex justify-between">
+                                            <div>
+                                                <h3 className="text-xl font-semibold">{exp.position}</h3>
+                                                <p className="text-blue-300">{exp.company}</p>
+                                            </div>
+                                            <span className="text-xs text-blue-300">{exp.startDate} - {exp.current ? 'Present' : exp.endDate}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+                </div>
+            </div>
         )
     };
 
     return (
         <div className="relative">
-            {/* Theme Selector - Floating */}
-            <div className="fixed top-8 right-8 z-50 flex flex-col gap-4">
-                <div className="bg-black/90 backdrop-blur-xl border-2 border-white/20 rounded-2xl p-4 shadow-2xl">
-                    <div className="flex items-center gap-2 mb-4">
-                        <Palette className="w-5 h-5 text-yellow-400" />
-                        <span className="text-sm font-bold uppercase tracking-wider text-white">Theme</span>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        {[
-                            { value: 'brutalist' as const, label: 'Brutalist', color: 'bg-yellow-400' },
-                            { value: 'minimal' as const, label: 'Minimal', color: 'bg-gray-300' },
-                            { value: 'glassmorphic' as const, label: 'Glass', color: 'bg-blue-400' },
-                            { value: 'neon' as const, label: 'Neon', color: 'bg-cyan-400' }
-                        ].map(theme => (
-                            <button
-                                key={theme.value}
-                                onClick={() => handleThemeChange(theme.value)}
-                                className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-all text-left ${
-                                    selectedTheme === theme.value 
-                                        ? 'bg-white/20 border-2 border-white' 
-                                        : 'bg-white/5 border-2 border-transparent hover:bg-white/10'
-                                }`}
-                            >
-                                <div className={`w-4 h-4 rounded-full ${theme.color}`}></div>
-                                <span className="text-sm font-medium text-white">{theme.label}</span>
-                            </button>
-                        ))}
-                    </div>
-                </div>
-
-                <Button asChild className="bg-white text-black hover:bg-yellow-400 font-bold border-2 border-white">
-                    <a href="/">
-                        <ChevronLeft className="mr-2" /> Back to Editor
-                    </a>
-                </Button>
-
-                <Button onClick={exportHTML} variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-black font-bold">
-                    <Download className="mr-2" /> Export HTML
-                </Button>
-            </div>
-
-            {/* Render Selected Theme */}
-            {themes[selectedTheme]}
+            {/* Render Selected Template */}
+            {templates[selectedTemplate]}
         </div>
     );
 }
