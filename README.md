@@ -12,7 +12,6 @@
   <img src="https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js">
   <img src="https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
   <img src="https://img.shields.io/badge/Tailwind-3.4-38bdf8?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind">
-  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License">
 </p>
 
 <p align="center">
@@ -327,14 +326,14 @@ npm --version
 
 ```bash
 # Clone and start in one line
-git clone https://github.com/yourusername/portfolios-generator.git && cd portfolios-generator && npm install && npm run dev
+git clone https://github.com/yogeshthapa-7/portfolios-generator.git && cd portfolios-generator && npm install && npm run dev
 ```
 
 ### Method 2: Step by Step
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/yourusername/portfolios-generator.git
+git clone https://github.com/yogeshthapa-7/portfolios-generator.git
 
 # 2. Navigate to directory
 cd portfolios-generator
@@ -438,19 +437,18 @@ portfolios-generator/
 
 **Color Palette:**
 ```css
---bg: #0a0a0a (Black)
+--bg: #000000 (Pure Black)
 --accent-1: #facc15 (Yellow)
---accent-2: #ef4444 (Red)
---accent-3: #3b82f6 (Blue)
---accent-4: #a855f7 (Purple)
+--accent-2: #3b82f6 (Blue)
+--accent-3: #a855f7 (Purple)
 ```
 
 **Key Features:**
-- ✅ Sharp geometric borders
-- ✅ High contrast text
-- ✅ Noise texture overlay
-- ✅ Staggered animations
-- ✅ Bold section dividers
+- ✅ Sharp geometric borders & thick strokes (`border-[12px]`)
+- ✅ Extreme kinetic typography and hard-shadows
+- ✅ Deep contrast & aggressive hover scaling and offsets
+- ✅ Advanced CSS keyframe animations (slideDown, slideUp)
+- ✅ Marquee-style background branding wraps
 
 **Best For:**  
 Creative professionals, graphic designers, art directors, content creators
@@ -501,7 +499,7 @@ Corporate professionals, consultants, executives, academic researchers
 
 ### 🌈 Glassmorphic Theme
 
-**Design Philosophy:** Modern & Translucent
+**Design Philosophy:** Modern, Premium & Translucent
 
 <details>
 <summary>View Details</summary>
@@ -509,25 +507,22 @@ Corporate professionals, consultants, executives, academic researchers
 <br>
 
 **Typography:**
-- All Text: `Montserrat`
+- Headers: `Inter`
+- Body: `Inter`
 
 **Color Palette:**
 ```css
---gradient: linear-gradient(
-  135deg, 
-  #667eea 0%, 
-  #764ba2 100%
-)
---glass: rgba(255,255,255,0.1)
---blur: 24px
+--bg: radial-gradient(ellipse at top right, #312e81, #0f0c29, #581c87)
+--glass: rgba(255, 255, 255, 0.02)
+--blur: 3xl (64px)
 ```
 
 **Key Features:**
-- ✅ Backdrop blur effects
-- ✅ Animated gradient blobs
-- ✅ Frosted glass panels
-- ✅ Soft shadows
-- ✅ Colorful accents
+- ✅ Deep `backdrop-blur-3xl` layered glass panes
+- ✅ Advanced animating RGB gradient mesh blobs
+- ✅ Glossy borders with sub-pixel hover glow transitions
+- ✅ Staggered slideUp physics on load
+- ✅ Metallic text gradients
 
 **Best For:**  
 Tech professionals, startup founders, product managers, UX designers
@@ -973,7 +968,7 @@ We love contributions! Here's how you can help:
 # 1. Fork the repository
 
 # 2. Clone your fork
-git clone https://github.com/YOUR_USERNAME/portfolios-generator.git
+git clone https://github.com/yogeshthapa-7/portfolios-generator.git
 
 # 3. Create a feature branch
 git checkout -b feature/amazing-feature
@@ -988,32 +983,6 @@ git push origin feature/amazing-feature
 
 # 7. Open a Pull Request
 ```
-
----
-
-## 📄 License
-
-<div align="center">
-
-```
-MIT License
-
-Copyright (c) 2024 Portfolio Generator
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-```
-
-[Read Full License](LICENSE)
-
-</div>
 
 ---
 
@@ -1161,11 +1130,6 @@ If you find this project helpful, please consider:
 
 <div align="center">
 
-### 🌟 Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=yourusername/portfolios-generator&type=Date)](https://star-history.com/yogeshthapa-7/portfolios-generator&Date)
-
-<br><br>
 
 **[⬆ Back to Top](#-portfolios-generator)**
 
